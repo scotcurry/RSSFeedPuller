@@ -1,6 +1,8 @@
 ﻿using Serilog;
 using Microsoft.AspNetCore.Mvc;
 
+using Datadog.Trace.Annotations;
+
 namespace RSSFeedPuller.Controllers;
 
 [ApiController]
@@ -16,8 +18,9 @@ public class RSSFeedPullerController : ControllerBase
         Configuration = configuration;
     }
 
+    [Trace(OperationName = "get.rssfeedlist", ResourceName = "RSSFeedPuller.Controllers.RSSFeedList.Get")]
     [HttpGet(Name = "RSSFeed")]
-    public RSSFeedList Get()
+    public RSSFeedList? Get()
     {
 
         var logPath = System.Environment.GetEnvironmentVariable("LOG_PATH");
@@ -56,6 +59,9 @@ public class RSSFeedPullerController : ControllerBase
             feed.UpdatedTime = "Error";
         } else
         {
+            var firstFeedItem = feedList?.FeedList?[0].Title;
+            Log.Information("Latest Item: " + firstFeedItem);
+
             return feedList;
         }
         return feedList;

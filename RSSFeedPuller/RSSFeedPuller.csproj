@@ -4,13 +4,26 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Configurations>Release;Debug</Configurations>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>AfterBuild</type>
+          <command>../VersionUpdater/bin/VersionUpdater</command>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Serilog" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Datadog.Trace" Version="2.33.0" />
+    <PackageReference Include="Datadog.Trace.Annotations" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
