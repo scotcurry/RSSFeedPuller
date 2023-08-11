@@ -6,8 +6,7 @@ COPY . ./
 RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
-
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.20
 RUN apt-get update
 RUN apt-get install -y curl
 
@@ -17,7 +16,7 @@ COPY --from=datadog/serverless-init /datadog-init /App/datadog-init
 
 ENV DD_SERVICE=rssfeedpuller
 ENV DD_ENV=prod
-ENV DD_VERSION=3.724.611
+ENV DD_VERSION=3.724.994
 
 # Download and install the Tracer
 RUN mkdir -p /opt/datadog \
